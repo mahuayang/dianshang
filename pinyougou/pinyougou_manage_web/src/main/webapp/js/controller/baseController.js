@@ -6,24 +6,36 @@ app.controller("baseController", function ($scope) {
         itemsPerPage: 10,// 页大小
         perPageOptions: [10, 20, 30, 40, 50],// 可选择的每页大小
         onChange: function () {// 当上述的参数发生变化了后触发
-            $scope.reloadList();
+    $scope.reloadList();
         }
     };
-// 加载表格数据
+    // 加载表格数据
     $scope.reloadList = function () {
-//$scope.findPage($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
-$scope.search($scope.paginationConf.currentPage,
+    //$scope.findPage($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
+    $scope.search($scope.paginationConf.currentPage,
     $scope.paginationConf.itemsPerPage);
-};
-// 定义一个放置选择了 id 的数组
-$scope.selectedIds = [];
-$scope.updateSelection = function ($event, id) {
-    if ($event.target.checked) {
-        $scope.selectedIds.push(id);
-    } else {
+    };
+    // 定义一个放置选择了 id 的数组
+    $scope.selectedIds = [];
+    $scope.updateSelection = function ($event, id) {
+        if ($event.target.checked) {
+    $scope.selectedIds.push(id);
+        } else {
         var index = $scope.selectedIds.indexOf(id);
-// 删除位置，删除个数
-        $scope.selectedIds.splice(index, 1);
-    }
-};
+    // 删除位置，删除个数
+    $scope.selectedIds.splice(index, 1);
+        }
+    };
+    // 将一个 json  数组格式字符串的某个 key 对应的值串起来显示，使用 , 分隔
+    $scope.jsonToString = function (jsonStr,key) {
+        var str = "";
+        var jsonArray = JSON.parse(jsonStr);
+        for (var i = 0;i < jsonArray.length;i++){
+            if (i> 0){
+                str += ",";
+            }
+            str += jsonArray[i][key];
+        }
+        return str;
+    };
 });

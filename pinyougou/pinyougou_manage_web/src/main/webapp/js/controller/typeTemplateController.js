@@ -83,6 +83,7 @@ app.controller("typeTemplateController", function ($scope, $controller, typeTemp
     $scope.specificationList = {data:[]};//初始化
     $scope.findSpecificationList = function(){
         specificationService.selectOptionList().success(function (response) {
+            //返回的数据结构如：：[{id:'1',text:'机身内存'},{id:'2',text:'屏幕尺寸'}]
             $scope.specificationList.data = response;
         });
     };

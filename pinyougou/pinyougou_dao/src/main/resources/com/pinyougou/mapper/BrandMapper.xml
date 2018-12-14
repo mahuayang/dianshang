@@ -5,4 +5,8 @@
     <select id="queryAll" resultType="TbBrand">
       SELECT * FROM tb_brand
     </select>
+    <!--因为 select2 的格式需要,所以需要给 name 起别名 text-->
+    <select id="selectOptionList" resultType="map">
+        select id,name as text from tb_brand
+    </select>
 </mapper>

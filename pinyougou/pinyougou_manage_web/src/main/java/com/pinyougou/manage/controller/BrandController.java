@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -22,7 +23,9 @@ public class BrandController {
     //注入代理对象
     @Reference
     private BrandService brandService;
+
     /**
+     *
      * 分页查询品牌的第1页每页5条数据
      * @param page 页号
      * @param rows 页大小
@@ -123,5 +126,14 @@ public class BrandController {
                              @RequestParam(value = "page",defaultValue = "1")Integer page,
                              @RequestParam(value = "rows",defaultValue = "10")Integer rows){
         return brandService.search(brand,page,rows);
+    }
+
+    /**
+     * 查询品牌列表，返回的数据格式符合 select2 格式
+     * @return
+     */
+    @GetMapping("/selectOptionList")
+    public List<Map<String,Object>> selectOptionList(){
+        return brandService.selectOptionList();
     }
 }
