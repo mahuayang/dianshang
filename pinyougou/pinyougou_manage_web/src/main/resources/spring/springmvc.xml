@@ -23,7 +23,7 @@
 
     <!--  引用 dubbo  服务  -->
     <!--在注册中心的名称-->
-    <dubbo:application name="pinyougou-manage-web"/>
+    <dubbo:application name="pinyougou_manage_web"/>
     <!--注册中心信息-->
     <dubbo:registry address="zookeeper://192.168.12.168:2181"/>
     <!--扫描阿里dubbo的注解的包路径-->
