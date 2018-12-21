@@ -53,23 +53,41 @@ public class GoodsController {
         }
         return Result.fail("增加失败");
     }
+    //更新商品状态
+    @GetMapping("/updateStatus")
+    public Result updateStatus(Long[] ids,String status){
+        try {
+            goodsService.updateStatus(ids,status);
+            return Result.ok("更新成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("更新失败");
+    }
 
     @GetMapping("/findOne")
-    public TbGoods findOne(Long id) {
-        return goodsService.findOne(id);
+    public Goods findOne(Long id) {
+        return goodsService.findGoodsById(id);
     }
 
     @PostMapping("/update")
-    public Result update(@RequestBody TbGoods goods) {
+    public Result update(@RequestBody Goods goods) {
         try {
-            goodsService.update(goods);
+            //效验商家
+            TbGoods oldGoods = goodsService.findOne(goods.getGoods().getId());
+            String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+            if (!sellerId.equals(oldGoods.getSellerId()) || !sellerId.equals(goods.getGoods().getSellerId())){
+                return Result.fail("操作非法");
+            }
+            goodsService.updateGoods(goods);
             return Result.ok("修改成功");
         } catch (Exception e) {
             e.printStackTrace();
         }
         return Result.fail("修改失败");
     }
-
+    //删除商品
+    @GetMapping("/delete")
     public Result delete(Long[] ids) {
         try {
             goodsService.deleteByIds(ids);
@@ -78,6 +96,18 @@ public class GoodsController {
             e.printStackTrace();
         }
         return Result.fail("删除失败");
+    }
+    //上下架商品
+    @GetMapping("/marketable")
+    public Result marketable(Long[] ids) {
+        try {
+                goodsService.marketableByIds(ids);
+                return Result.ok("上架成功");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.fail("数据处理异常");
     }
 
     /**
@@ -91,6 +121,9 @@ public class GoodsController {
     @PostMapping("/search")
     public PageResult search(@RequestBody TbGoods goods, @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "rows", defaultValue = "10") Integer rows) {
+        //只能查询当前商家自己的商品
+        String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+        goods.setSellerId(sellerId);
         return goodsService.search(page, rows, goods);
     }
 }
