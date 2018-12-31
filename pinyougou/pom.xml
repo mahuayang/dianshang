@@ -15,6 +15,14 @@
         <module>pinyougou_dao</module>
         <module>pinyougou_manage_web</module>
         <module>pinyougou_shop_web</module>
+        <module>pinyougou_content</module>
+        <module>pinyougou_portal_web</module>
+        <module>pinyougou_solr_import</module>
+        <module>pinyougou_search</module>
+        <module>pinyougou_search_web</module>
+        <module>pinyougou_item_web</module>
+        <module>pinyougou_user</module>
+        <module>pinyougou_user_web</module>
     </modules>
 
     <!-- 集中定义依赖版本号 -->
